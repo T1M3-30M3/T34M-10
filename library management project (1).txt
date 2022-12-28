@@ -1,0 +1,324 @@
+#include<stdio.h>
+#include<stdlib.h>
+void heading();
+void  password();
+void mainmenu ();
+void addbook();
+void viewbkli();
+void searchbook ();
+void editbookinfo();
+void deletebook();
+void help();
+void exitmenu();
+
+struct bookinfo{
+
+int   id;
+char  name[100];
+char  author[100];
+int   reck ;
+};
+struct bookinfo a;
+FILE *file;
+FILE *file2;
+
+//main function
+
+int main (){
+
+password();
+
+}
+
+//heading
+ void heading(){
+system("cls");
+printf("\n\n\n\t\t\t*************** United library ***************\n");
+//fflush(stdin);
+//getchar();
+}
+
+//password section(to main menu)
+
+void  password()
+{
+    heading();
+char password1[10]={"dipta"};
+char password2[10];
+printf("\n\n enter the password:");
+gets(password2);
+if(strcmp(password1,password2)==0){
+
+    printf("\t\t\n\n password  matched\n");
+    printf("press 'enter' button for going to  the  menu......");
+
+
+}
+else
+{
+
+    printf("\t\t\n\n wrong password\n");
+    printf("\t\t\n please try again");
+    password();
+}
+fflush(stdin);
+getchar();
+
+mainmenu();
+}
+//main menu
+void mainmenu(){
+system("cls");
+int a;
+printf("\t\t\t\t\t\t--------------------\n");
+printf("\t\t\t\t\t\t    Main MENU  \n");
+printf("\t\t\t\t\t\t--------------------\n");
+printf("\n\n\n\t\t\t 1.Add Book \n");
+printf("\n\t\t\t 2.View book list\n");
+printf("\n\t\t\t 3.Search book\n");
+printf("\n\t\t\t 4.Edit book info\n");
+printf("\n\t\t\t 5.Delete book\n");
+printf("\n\t\t\t 6.Help \n");
+printf("\n\t\t\t 7.Exit \n");
+printf("\n\t###########################################");
+printf("\n\n\t\t\tPlease enter your choice: ");
+scanf("%d",&a);
+
+if(a==1){
+    addbook();
+}
+else if(a==2){
+    viewbkli();
+}
+else if(a==3){
+    searchbook();
+}
+else if(a==4){
+    editbookinfo();
+}
+else if(a=5){
+   deletebook() ;
+}
+else if(a==6){
+    help();
+}
+else if(a==7){
+    exitmenu();
+}
+else
+    printf("you choice does not exist on  the menu");
+
+fflush(stdin);
+getchar();
+}
+//add book
+void addbook(){
+system("cls");
+int d,count=0;
+printf("\t\t-----------------------------Add  book----------------------------");
+
+file=fopen("books.bat","rb+");
+
+printf("\n\n\t\t enter book  id :");
+scanf("%d",&d);
+
+while(fread(&a,sizeof(a),1,file)){
+
+    if(d==a.id){
+        printf("\n\n\t\t this book  is  already in library! ");
+        printf("\n\n\t\t press 'enter' button to  continue.......");
+        count=1;
+    }
+}
+    if(count==1){
+        fflush(stdin);
+        getchar();
+        mainmenu();
+    }
+    a.id=d;
+
+    printf("\n\n\t\t enter book  name :");
+    scanf("%s",a. name);
+
+    printf("\n\n\t\t enter author name :");
+    scanf("%s",a. author );
+
+    printf("\n\n\t\t enter slot no.:");
+    scanf("%d",&a.reck );
+
+    fseek(file,0,SEEK_END);
+    fwrite(&a,sizeof(a),1,file);
+
+    fclose(file);
+
+    printf("\n\n\t\t add book  succesful!\n");
+    printf("\n\n\t\t-----------------------\n");
+    fflush(stdin);
+        getchar();
+        mainmenu();
+        printf("press 'enter'button to  continue........");
+}
+//view book list
+void viewbkli(){
+system("cls");
+printf("\n\n\t\t\t\t View book  list");
+printf("\n\n\t\t\t\t-------------------\n");
+printf("\t\t id \t\t name \t\t author \t reck \n");
+
+file=fopen("books.bat","rb");
+
+while(fread(&a,sizeof(a),1,file)==1){
+
+    printf("\t\t %d",a.id);
+    printf("\t\t %s",a.name);
+    printf("\t\t %s",a.author);
+    printf("\t\t %d\n",a.reck);
+
+
+}
+fflush(stdin);
+getchar();
+mainmenu();
+}
+//search book
+void searchbook(){
+    system("cls");
+    int b;
+    printf("\n\n\t\t\t-----------search  book------------");
+    printf("\n\n\t\t enter book  id:");
+    scanf("%d",&b);
+   file= fopen("books.bat","rb");
+while(fread(&a,sizeof(a),1,file)==1){
+
+    if(b==a.id){
+            printf("\n\n\t\t\t The book is found!");
+
+    printf("\n\n\t\t book id is: %d",a.id);
+    printf("\n\n\t\t book name is: %s",a.name);
+    printf("\n\n\t\t author name is:%s",a.author);
+    printf("\n\n\t\t reck  number is: %d\n",a.reck);
+
+
+
+    }
+
+
+}
+printf("\n\n\t\t press  'enter' button  for going to  main menu");
+
+   fflush(stdin);
+getchar();
+mainmenu();
+}
+//edit book info
+void editbookinfo(){
+ system("cls");
+int b;
+printf("\n\n\t\t############## Edit book  info ##############");
+printf("\n\n\t\t enter book id:");
+scanf("%d",&b);
+
+   file= fopen("books.bat","rb+");
+while(fread(&a,sizeof(a),1,file)==1){
+
+    if(b==a.id){
+            printf("\n\n\t\t\t The book is available!");
+
+    printf("\n\n\t\t  book id is: %d",a.id);
+    printf("\n\n\t\t  book name is: %s",a.name);
+    printf("\n\n\t\t author name is:%s",a.author);
+    printf("\n\n\t\t   reck  number is: %d\n",a.reck);
+
+
+    printf("\n\t\t the new book id is: ");
+    scanf("%d",&a.id);
+    printf("\nn\t\t the new book name is: ");
+     scanf("%s",a.name);
+    printf("\n\t\t the new author name is:");
+     scanf("%s",a.author);
+    printf("\n\t\t  the new reck  number is: ");
+     scanf("%d",&a.reck);
+
+
+    fseek(file,ftell(file)-sizeof(a),0);
+    fwrite(&a,sizeof(a),1,file);
+
+    fclose(file);
+
+
+}
+
+}
+
+   fflush(stdin);
+getchar();
+mainmenu();
+}
+
+
+void deletebook(){
+
+ system("cls");
+int b;
+int count=0;
+printf("\n\n\t\t############## Edit book  info ##############");
+printf("\n\n\t\t enter book id:");
+scanf("%d",&b);
+
+   file= fopen("books.bat","rb+");
+while(fread(&a,sizeof(a),1,file)==1){
+
+    if(b==a.id){
+            printf("\n\n\t\t\t The book is available!");
+
+    printf("\n\n\t\t  book id is: %d",a.id);
+    printf("\n\n\t\t  book name is: %s",a.name);
+    printf("\n\n\t\t author name is:%s",a.author);
+    printf("\n\n\t\t   reck  number is: %d\n",a.reck);
+    count=1;
+
+
+
+
+    file2=fopen("text.doc","wb+");
+    rewind(file);
+
+    while(fread(&a,sizeof(a),1,file)==1){
+        if(b!=a.id){
+                fseek(file2,ftell(file2)-sizeof(a),0);
+            fwrite(&a,sizeof(a),1,file2);
+        }
+    }
+    fclose(file);
+    fclose(file2);
+    remove("books.bat");
+    rename("text.doc","wb");
+   file= fopen("books.bat","rb");
+   fclose(file);
+
+}
+}
+  fflush(stdin);
+getchar();
+mainmenu();
+
+}
+
+//help menu
+void help(){
+
+system("cls");
+
+printf("\n\n\t\t*************** Help*******************");
+printf("\n\n\t\t For  any information  please contact us........ ");
+printf("\n\n\t\t mobile no.:01875529800");
+printf("\n\n\t\t email id: diptapaul456@gmail.com");
+printf("\n\n\t\t press 'enter'button for  going to the main menu........  ");
+  fflush(stdin);
+getchar();
+mainmenu();
+}
+//exit menu
+void exitmenu(){
+password();
+}
